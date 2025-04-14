@@ -1,0 +1,7 @@
+le fichier ecole_connectee doit etre placé dans ce chemin la : C:\wamp64\www\ecole_connectee
+Pour lancer le site : aller dans module-information lancer cmd et ecrire npm run dev *
+Pour lancer le backend : aller dans le fichire backend lancer cmd et ecrire node server.js
+Remarque : dans le dossier backend il y'a un ficher server.js il faut changer le mdp et le nom 
+
+Remarque bis : si vous voulez rajouter des pages il faut travailler dans le dossier module-information ce dossiser est en fait le main mais juste je n'ai pas reussi a modif son nom donc tout travail doit etre inclue dans ce dossier 
+

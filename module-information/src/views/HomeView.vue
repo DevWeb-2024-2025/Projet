@@ -1,22 +1,23 @@
 <template>
   <div class="container">
     <!-- Présentation -->
-    <section>
-      <h1>Bienvenue sur ConnectTech School</h1>
+    <section class="welcome">
+      <h1>Bienvenue sur <span class="brand">ConnectTech School</span></h1>
       <p>
-        Cette plateforme permet aux visiteurs de découvrir l'établissement, ses équipements,
-        et les événements à venir. Réservez une salle ou explorez nos ressources librement.
+        Explorez notre établissement, découvrez nos équipements et restez informé des événements à venir.
+        Réservez vos espaces facilement grâce à cette plateforme.
       </p>
-      <img :src="image" alt="Image école" style="width: 50%; max-height: 300px; object-fit: cover; border-radius: 10px;" />
+      <img :src="image" alt="Image école" />
     </section>
 
-    <!-- Carrousel / Slider -->
-    <section style="margin-top: 40px;">
+    <!-- Carrousel d'événements -->
+    <section class="carousel">
       <h2>📅 Événements à venir</h2>
       <div class="slider">
         <div class="slide" v-for="event in events" :key="event.id">
           <h3>{{ event.titre }}</h3>
-          <p>{{ event.date }} - {{ event.description }}</p>
+          <p><strong>{{ event.date }}</strong></p>
+          <p>{{ event.description }}</p>
         </div>
       </div>
     </section>
@@ -41,41 +42,55 @@ export default {
 };
 </script>
 
-
 <style scoped>
 .container {
-  padding: 2rem;
   max-width: 1100px;
-  margin: 0 auto;
-  text-align: left;
-  background-color: #e5edf5;
+  margin: 40px auto;
+  padding: 2rem;
+  background-color: #f0f4f8;
   border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.05);
 }
 
 section {
   margin-bottom: 3rem;
-  background-color: #d1e3f0;
+  background-color: #ffffff;
   padding: 2rem;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border-radius: 14px;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.04);
 }
 
 h1 {
-  font-size: 2.5rem;
-  color: #1f2937;
-  margin-bottom: 0.5rem;
+  font-size: 2.2rem;
+  margin-bottom: 1rem;
+  color: #1a1a1a;
+}
+
+.brand {
+  color: #007acc;
+  font-weight: 700;
 }
 
 p {
   font-size: 1.1rem;
-  color: #374151;
+  color: #333;
+  line-height: 1.6;
   margin-bottom: 1rem;
 }
 
 img {
   width: 100%;
+  max-height: 350px;
+  object-fit: cover;
   border-radius: 12px;
-  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.08);
+  margin-top: 1rem;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.1);
+}
+
+.carousel h2 {
+  font-size: 1.8rem;
+  margin-bottom: 1rem;
+  color: #333;
 }
 
 .slider {
@@ -83,46 +98,28 @@ img {
   overflow-x: auto;
   gap: 20px;
   scroll-snap-type: x mandatory;
-  padding-bottom: 1rem;
+  padding-bottom: 0.5rem;
 }
 
 .slide {
   flex: 0 0 auto;
-  background-color: #c7dbeb;
-  padding: 1.5rem;
-  border-radius: 12px;
-  min-width: 280px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
   scroll-snap-align: start;
+  min-width: 280px;
+  background-color: #e6f0fa;
+  border-radius: 12px;
+  padding: 1.5rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
 }
 
 .slide h3 {
-  font-size: 1.4rem;
+  font-size: 1.3rem;
+  color: #005b99;
   margin-bottom: 0.5rem;
-  color: #1f2937;
 }
 
 .slide p {
   font-size: 1rem;
-  color: #374151;
+  color: #222;
+  margin: 0.2rem 0;
 }
-
-button {
-  background-color: #2563eb;
-  color: white;
-  padding: 0.6rem 1.2rem;
-  border: none;
-  border-radius: 8px;
-  font-weight: 600;
-  cursor: pointer;
-  transition: background-color 0.3s ease;
-}
-
-button:hover {
-  background-color: #1e40af;
-}
-
-
 </style>
-
-
