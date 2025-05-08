@@ -8,6 +8,20 @@ import RegisterView from './views/RegisterView.vue';
 import ReservationsView from './views/ReservationsView.vue';
 import AddReservationView from './views/AddReservationView.vue';
 import ProfilView from './views/ProfilView.vue';
+import ReservationEnCoursView from './views/ReservationEnCoursView.vue';
+import EvenementsView from './views/EvenementsView.vue';
+import EquipementsView from './views/EquipementsView.vue';
+import NotificationsView from './views/NotificationsView.vue';
+import AjouterMaterielView from './views/AjouterMaterielView.vue';
+import AdminView from './views/AdminView.vue';
+
+
+
+
+
+
+
+
 
 const routes = [
   { path: '/', component: HomeView },
@@ -25,7 +39,43 @@ const routes = [
     path: '/profil',
     name: 'Profil',
     component: ProfilView
-  }
+  },
+  {
+    path: '/reservations-en-cours',
+    name: 'ReservationsEnCours',
+    component: ReservationEnCoursView
+  },
+
+  {
+    path: '/evenements',
+    name: 'Evenements',
+    component: EvenementsView
+  },
+
+  {
+    path: '/equipements',
+    name: 'Equipements',
+    component: EquipementsView
+  },
+  {
+    path: '/notifications',
+    name: 'Notifications',
+    component: NotificationsView
+  },
+  {
+    path: '/ajouter-materiel',
+    name: 'AjouterMateriel',
+    component: AjouterMaterielView
+  },
+  { path: '/admin', name: 'Admin', component: AdminView },
+
+  
+  
+  
+  
+  
+  
+  
   
   
 ];

@@ -32,7 +32,7 @@ async function loginUser() {
     const data = await response.json();
 
     if (data.success) {
-      store.login(data.token);
+      store.login(data.token); // Le décodage du token est fait dans le store
       router.push("/profil");
     } else {
       alert(data.message || "Identifiants incorrects.");

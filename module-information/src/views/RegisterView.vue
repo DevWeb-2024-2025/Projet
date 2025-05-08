@@ -8,11 +8,19 @@
         <input v-model="form.prenom" placeholder="Prénom" required />
         <input v-model="form.email" type="email" placeholder="Email" required />
         <input v-model="form.password" type="password" placeholder="Mot de passe" required />
+
+        <!-- ✅ Choix du rôle -->
+        <select v-model="form.role" required>
+          <option disabled value="">-- Choisir un rôle --</option>
+          <option value="etudiant">Étudiant</option>
+          <option value="enseignant">Enseignant</option>
+          <option value="admin">Admin</option>
+        </select>
+
         <button type="submit">S'inscrire</button>
       </form>
 
-      <!-- ✅ Message de succès ou erreur -->
-      <p v-if="message" :class="messageClass">{{ message }}</p>
+      <p v-if="message" :class="messageType">{{ message }}</p>
     </div>
   </div>
 </template>
@@ -25,19 +33,12 @@ export default {
         nom: '',
         prenom: '',
         email: '',
-        password: ''
+        password: '',
+        role: ''
       },
       message: '',
-      messageType: '' // 'success' ou 'error'
+      messageType: ''
     };
-  },
-  computed: {
-    messageClass() {
-      return {
-        success: this.messageType === 'success',
-        error: this.messageType === 'error'
-      };
-    }
   },
   methods: {
     async register() {
@@ -50,30 +51,19 @@ export default {
           body: JSON.stringify(this.form)
         });
 
-        const text = await res.text();
-
-        try {
-          const data = JSON.parse(text);
-
-          if (data.success) {
-            this.message = "Inscription réussie !";
-            this.messageType = "success";
-            setTimeout(() => {
-              this.$router.push('/login');
-            }, 1500); // redirection après 1.5s
-          } else {
-            this.message = data.message || "Erreur lors de l'inscription";
-            this.messageType = "error";
-          }
-
-        } catch (e) {
-          console.error("Réponse non JSON :", text);
-          this.message = "Réponse invalide du serveur.";
+        const data = await res.json();
+        if (data.success) {
+          this.message = "✅ Compte créé avec succès.";
+          this.messageType = "success";
+          setTimeout(() => {
+            this.$router.push('/login');
+          }, 1500);
+        } else {
+          this.message = data.message || "Erreur lors de l'inscription.";
           this.messageType = "error";
         }
-
       } catch (err) {
-        console.error("Erreur réseau :", err);
+        console.error(err);
         this.message = "Erreur de connexion au serveur.";
         this.messageType = "error";
       }
@@ -101,29 +91,14 @@ export default {
   text-align: center;
 }
 
-h2 {
-  margin-bottom: 20px;
-  color: #1f1f1f;
-}
-
-form {
-  display: flex;
-  flex-direction: column;
-}
-
-input {
+input, select {
+  display: block;
+  width: 100%;
   padding: 12px;
   margin-bottom: 16px;
   border-radius: 6px;
   border: 1px solid #ccc;
   font-size: 15px;
-  background-color: #fefefe;
-  color: #000; /* ✅ ICI : Texte noir */
-}
-
-input:focus {
-  outline: none;
-  border-color: #080808;
 }
 
 button {
@@ -134,14 +109,12 @@ button {
   border: none;
   border-radius: 8px;
   cursor: pointer;
-  transition: background-color 0.2s ease;
 }
 
 button:hover {
   background-color: #0056b3;
 }
 
-/* ✅ Style des messages */
 .success {
   color: #2e7d32;
   margin-top: 15px;

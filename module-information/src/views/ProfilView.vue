@@ -12,11 +12,24 @@
       </div>
     </div>
 
+    <div class="message-box">
+      <h3>✉️ Envoyer un message</h3>
+      <form @submit.prevent="envoyerNotification">
+        <label>Email du destinataire :</label>
+        <input type="email" v-model="form.email" required />
+
+        <label>Message :</label>
+        <textarea v-model="form.message" required rows="3"></textarea>
+
+        <button type="submit">Envoyer</button>
+      </form>
+    </div>
+
     <div class="history-section">
       <h3>📋 Historique des réservations</h3>
       <ul class="reservation-list">
         <li v-for="res in reservations" :key="res.id">
-          <span class="icon">📅</span>
+          <span class="icon">🗓️</span>
           {{ formatDateTime(res.date_debut) }} - {{ formatDateTime(res.date_fin) }}
           <span class="type"> ({{ res.type }})</span>
         </li>
@@ -29,15 +42,19 @@
 export default {
   data() {
     return {
-      nom : '',
-      prenom : '',
+      nom: '',
+      prenom: '',
       points: 0,
       reservations: [],
+      form: {
+        email: '',
+        message: ''
+      }
     };
   },
   computed: {
     niveau() {
-      if (this.points >= 200) return "Expert"
+      if (this.points >= 200) return "Expert";
       if (this.points >= 100) return "Confirmé";
       if (this.points >= 50) return "Intermediaire";
       return "Débutant";
@@ -61,9 +78,8 @@ export default {
       .then(res => res.json())
       .then(data => {
         if (data.success) {
-          console.log('profil', data);
           this.nom = data.nom;
-          this.prenom = data.prenom
+          this.prenom = data.prenom;
           this.points = data.points;
           this.reservations = data.reservations;
         } else {
@@ -79,11 +95,35 @@ export default {
         hour: '2-digit', minute: '2-digit'
       };
       return new Date(dateStr).toLocaleDateString('fr-FR', options);
+    },
+    envoyerNotification() {
+      const token = localStorage.getItem("token");
+      fetch("http://localhost/ecole_connectee/api/etudiant/send_notification.php", {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: 'Bearer ' + token
+        },
+        body: JSON.stringify(this.form)
+      })
+        .then(res => res.json())
+        .then(data => {
+          if (data.success) {
+            alert("✅ Message envoyé !");
+            this.form.email = '';
+            this.form.message = '';
+          } else {
+            alert(data.message || "Erreur lors de l'envoi");
+          }
+        })
+        .catch(err => {
+          console.error("Erreur envoi:", err);
+          alert("Erreur de connexion");
+        });
     }
   }
 };
 </script>
-
 
 <style scoped>
 .profile-container {
@@ -153,6 +193,44 @@ export default {
 .level span {
   font-weight: 600;
   color: #000;
+}
+
+.message-box {
+  background: #fff;
+  margin-top: 30px;
+  padding: 20px 30px;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+}
+
+.message-box h3 {
+  font-size: 18px;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.message-box input,
+.message-box textarea {
+  width: 100%;
+  padding: 10px;
+  margin: 6px 0 16px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  font-size: 15px;
+}
+
+.message-box button {
+  background: #4caf50;
+  border: none;
+  color: white;
+  padding: 10px 16px;
+  font-size: 15px;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+.message-box button:hover {
+  background: #388e3c;
 }
 
 .history-section {
